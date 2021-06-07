@@ -1,0 +1,20 @@
+version: '3'
+services:
+  collabora:
+    image: collabora/code
+    restart: always
+    networks:
+      - web
+    cap_add:
+      - MKNOD
+    environment:
+      - domain=nextcloud\\.internal\\.prateekkumar\\.in
+      - "extra_params=--o:ssl.enable=false --o:ssl.termination=true"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.collabora.rule=Host(`collabora.internal.prateekkumar.in`)"
+      - "traefik.http.routers.collabora.entrypoints=web-secure"
+      - "traefik.http.routers.collabora.tls.certResolver=primary"
+networks:
+  web:
+    external: true
